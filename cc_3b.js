@@ -26,7 +26,7 @@ let inventory = [
      }
 ];
 inventory.forEach((inventory) =>
-    console.log(`${inventory.SKU} | ${inventory.nameame} | $${inventory.price} | ${inventory.stock}`)
+    console.log(`${inventory.SKU} | ${inventory.name} | $${inventory.price} | ${inventory.stock}`)
 );
 inventory.push({
     SKU: "sku-1004",
@@ -61,26 +61,26 @@ console.log(orders)
     let total = 0
     const processOrder= (order)=> {
         for (const item of order.items) {
-        const product= inventory.find(p => item.SKU);
+      const product = inventory.find(p => p.SKU === item.SKU);
         if (!product) {
-        return `${order.order.Id}: SKU unavailable (${item.SKU})`
+        return `${order.orderId}: SKU unavailable (${item.SKU})`
     
         }
-        if (product.stock < item.qty) {
+        if (product.stock < item.quantity) {
             return `${order.orderId}: Out of Stock = (${item.SKU})`
         }
     }
-    return `${order.orderId}: Order restocked`;
+    return `${order.orderId}: Order Completed`;
     };
      orders.forEach(order => {
         console.log(processOrder(order));
      })
 
-    let totalInventoryValue = inventory.reduce((sum,p) => sum + p.price * p.stock, 0);
-console.log(`Total Inventory Value: $${totalInventoryValue.toFixed(2)}`);
+    let totalInventoryCost = inventory.reduce((sum,p) => sum + p.price * p.stock, 0);
+console.log(`Total Inventory Cost: $${totalInventoryCost.toFixed(2)}`);
 
-let lowStockItems = inventory.filter((p) => p.stock <=50);
-lowStockItems.forEach((p) => console.log(`Low Stock Item: ${p.sku} | ${p.productName} | ${p.stock}`));
+let RestockItems = inventory.filter((p) => p.stock <=60);
+RestockItems.forEach((p) => console.log(`Low Stock Item: ${p.SKU} | ${p.name} | ${p.stock}`));
 
-let priceList = inventory.map((p) => `${p.sku}:$${p.price}`);
+let priceList = inventory.map((p) => `${p.SKU}:$${p.price}`);
 console.log(`Price List \n${priceList}`);
