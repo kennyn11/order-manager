@@ -76,14 +76,11 @@ console.log(orders)
         console.log(processOrder(order));
      })
 
-     const totalInventory = inventory.reduce((total, item) =>  {
-    return total + (item.price * item.stock)
-}, 0 );
-// .Filter
-const lowStockItems = inventory.filter(item => item.stock <=5);
-console.log("Low Stock items that need restocking:" , lowStockItems) // console filter
-// .Map
-const currentPriceItems = inventory.map(item => `${item.SKU} - ${item.price}`)
+    let totalInventoryValue = inventory.reduce((sum,p) => sum + p.price * p.stock, 0);
+console.log(`Total Inventory Value: $${totalInventoryValue.toFixed(2)}`);
 
-console.log("Current Price of Items:", currentPriceItems)
-console.log("Total inventory:", totalInventory)
+let lowStockItems = inventory.filter((p) => p.stock <=50);
+lowStockItems.forEach((p) => console.log(`Low Stock Item: ${p.sku} | ${p.productName} | ${p.stock}`));
+
+let priceList = inventory.map((p) => `${p.sku}:$${p.price}`);
+console.log(`Price List \n${priceList}`);
